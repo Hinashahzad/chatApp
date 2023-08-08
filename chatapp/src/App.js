@@ -1,8 +1,7 @@
 import Routing from "./Pages/Routing";
-
 function App() {
   return ( <>
-   <Routing />
+        <Routing />
 </>  );
 }
 

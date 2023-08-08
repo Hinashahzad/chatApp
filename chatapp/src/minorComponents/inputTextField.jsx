@@ -1,10 +1,15 @@
 import React from "react";
 const InputTextField = ( {
     id,
-    name, type,
+    name,
+    type,
     autoComplete,
     placeHolderText,
-    border, width, focus, background} ) =>
+    border,
+    width,
+    focus,
+    background,
+    onChange} ) =>
 {
     
     return ( <>
@@ -17,7 +22,8 @@ const InputTextField = ( {
                 rounded-md border-0 py-1.5 text-gray-900
                 shadow-sm placeholder:text-gray-400
                 ${focus}
-                sm:text-sm sm:leading-6 ${border} ${background}`} />
+                sm:text-sm sm:leading-6 ${border } ${ background }` }
+            onChange={onChange}/>
     </> );
 };
 export default InputTextField;
