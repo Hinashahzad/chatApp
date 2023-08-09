@@ -9,6 +9,7 @@ const InputTextField = ( {
     width,
     focus,
     background,
+    accept,
     onChange} ) =>
 {
     
@@ -17,6 +18,7 @@ const InputTextField = ( {
             name={ name }
             type={ type } autoComplete={ autoComplete }
             placeholder={ placeHolderText }
+            accept={accept}
             required 
             className={`block ${width} 
                 rounded-md border-0 py-1.5 text-gray-900
