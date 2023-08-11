@@ -1,43 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { NavBar } from '../minorComponents/navBar';
 import User from './user';
 import InputTextField from '../minorComponents/inputTextField';
+import { AppContext } from '../context/appContext';
 
-function SideBar ( props )
+function SideBar (  {loginUserUID})
 {
-    const [ user, setUser ] = useState( [
-        {
-            name: "Hina Shahzad",
-            message: "Hello Whats up??"
-        },
-         {
-            name: "Hina Shahzad",
-            message: "Hello Whats up??"
-        },
-          {
-            name: "Hina Shahzad",
-            message: "Hello Whats up??"
-        },
-           {
-            name: "Hina Shahzad",
-            message: "Hello Whats up??"
-        },
-           {
-            name: "Hina Shahzad",
-            message: "Hello Whats up??"
-        },{
-            name: "Hina Shahzad",
-            message: "Hello Whats up??"
-        },
-           {
-            name: "Hina Shahzad",
-            message: "Hello Whats up??"
-        },{
-            name: "Hina Shahzad",
-            message: "Hello Whats up??"
-        },
-        
-    ]);
+    console.log("Login user is", loginUserUID);
+    const { userList } = useContext( AppContext );
     return (
         <aside className="w-1/4 bg-gray-800 text-white p-4">
             <NavBar />
@@ -55,15 +25,23 @@ function SideBar ( props )
                     />
         </div>
             <div className='container overflow-y-auto border'>
-                <ul>
-                 {user.map((user, index) => (
-                     <User
-                        key={ index }
-                        name={ user.name }
-                        message={ user.message } />
-        ))}
-         
-        </ul>
+               <ul>
+                {userList.map((user, index) => {
+                    // Check if the user's uid is not equal to the loginUserUID
+                    if (user.uid !== loginUserUID) {
+                    return (
+                        <User
+                        key={index}
+                        uid={user.uid}
+                        name={user.displayName}
+                        img={user.photoURL}
+                        />
+                    );
+                    }
+                    return null; // Skip rendering if the user's uid matches loginUserUID
+                })}
+</ul>
+
             </div>
             
       </aside>

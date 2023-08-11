@@ -13,6 +13,7 @@ const Routing = () =>
                 <Route path="/Registration" element={ <Registration /> }></Route>
                 <Route path="/Login" element={ <Login /> }></Route>
                 <Route path="/Home" element={ <Home /> }></Route>
+                <Route path="/Home/:uid" element={  <Home />  }></Route>
             </Routes>
         </Router>
     </> );

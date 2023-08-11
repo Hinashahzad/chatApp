@@ -1,20 +1,23 @@
 import React from 'react';
 import Logo from '../minorComponents/logo';
 import LabelText from '../minorComponents/labelText';
-import Messages from './messages';
+import { Link } from 'react-router-dom';
 
-function User({key, name, message}) {
+function User ( { name, img, uid } )
+{
+    console.log("uid inside user", uid);
     return (
-        <li className="py-1">
-        <div className='flex justify-start mb-2 border' >
-                <Logo size="w-75 h-20 object-contain" />
+        <li className="py-2">
+            <Link to={`/Home/${uid}`} className="block">
+        <div className='flex justify-start mb-2 p-2 border-b border-gray-300' >
+                <Logo size="w-16 h-16" img={img} />
                  <div className='flex flex-col mt-3'>
                 <LabelText text={name}
-                    color="text-white" />
-                    <Messages messageText={message} />
+                    color="px-2 text-white" />
+                   {/* <Messages messageText={message} />*/}
         </div>
             </div>
-           
+           </Link>
         </li>
          
     );

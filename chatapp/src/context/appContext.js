@@ -5,12 +5,17 @@ const AppProvider = ({children}) =>
 {
     const [ error, setError ] = useState({status:false, details:""} );
     const [ userList, setUserList ] = useState( [] );
+    const [ activeUser, setActiveUser ] = useState( false );
     const [ user, setUser ] = useState( {
         userName: "", 
         email: "",
         password: "", 
-        userImg:"",
+        userImg: "",
+        receiveMessages: [], 
+        sendMessages:[]
     } )
+    const [ sendMessage, setSendMessage ] = useState( '' );
+    const [ receiveMessage, setReceiveMessage ] = useState( '' );
     const value = {
         userList,
         setUserList,
@@ -18,6 +23,12 @@ const AppProvider = ({children}) =>
         setUser, 
         error,
         setError,
+        activeUser,
+        setActiveUser,
+        sendMessage,
+        setSendMessage,
+        receiveMessage,
+        setReceiveMessage
     }
     return <AppContext.Provider value={ value }>{ children }</AppContext.Provider>
 };

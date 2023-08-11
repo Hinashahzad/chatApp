@@ -1,4 +1,4 @@
-const Button = ({type,text, size}) =>
+const Button = ({type,text, size, onClick}) =>
 {
     return ( <>
         <button
@@ -8,7 +8,9 @@ const Button = ({type,text, size}) =>
             text-white shadow-sm hover:bg-indigo-500
             focus-visible:outline focus-visible:outline-2
             focus-visible:outline-offset-2
-            focus-visible:outline-indigo-600`}>{ text }</button>
+            focus-visible:outline-indigo-600`}
+            onClick={ onClick}>{ text }
+            </button>
     </> );
 };
 export default Button;

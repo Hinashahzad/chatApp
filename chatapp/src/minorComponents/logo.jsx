@@ -1,9 +1,13 @@
-import image from '../assets/chat logo.png';
-const Logo = ({size}) =>
-{
-    
-    return ( <>
-        <img src={ image } alt="Chat logo" className={ `${size } cursor-pointer`} />
-    </> );
+import React from 'react';
+
+const Logo = ({ size, img }) => {
+    return (
+        
+        <img src={ img }
+            alt="Chat logo"
+            className={ `rounded-full ${ size } cursor-pointer` } />
+        
+    );
 };
+
 export default Logo;
