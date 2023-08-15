@@ -1,14 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NavBar } from '../minorComponents/navBar';
 import User from './user';
 import InputTextField from '../minorComponents/inputTextField';
 import { AppContext } from '../context/appContext';
+import { useParams } from 'react-router-dom';
 
-function SideBar (  {loginUserUID})
+function SideBar ( )
 {
-    console.log("Login user is", loginUserUID);
-    const { userList } = useContext( AppContext );
-    return (
+    const { uid } = useParams();
+    const { user, userList, setUserList, setFriend } = useContext( AppContext );
+
+    /** DISPLAY REST OF THE USERS LIST IN THE SIDE BAR EXCEPT THE LOGIN USER */
+    useEffect( () =>
+    {
+        const updateUserList = userList.filter( ( User, index ) => User.uid !== user.uid )
+        setUserList( updateUserList );
+        const friend = userList.find( user => user.uid === uid );
+        setFriend( {
+            friendUID: friend.uid,
+            friendName: friend.displayName,
+        } );
+    }, [ user, uid ] )
+    
+    return ( <>
         <aside className="w-1/4 bg-gray-800 text-white p-4">
             <NavBar />
             <div className='flex mt-5'>
@@ -27,24 +41,20 @@ function SideBar (  {loginUserUID})
             <div className='container overflow-y-auto border'>
                <ul>
                 {userList.map((user, index) => {
-                    // Check if the user's uid is not equal to the loginUserUID
-                    if (user.uid !== loginUserUID) {
+                    
                     return (
                         <User
                         key={index}
                         uid={user.uid}
-                        name={user.displayName}
+                        name={ user.displayName }   
                         img={user.photoURL}
                         />
                     );
-                    }
-                    return null; // Skip rendering if the user's uid matches loginUserUID
                 })}
 </ul>
-
             </div>
-            
-      </aside>
+        </aside></>
+    
     );
 }
 

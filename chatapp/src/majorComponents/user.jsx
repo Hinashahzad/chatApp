@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Logo from '../minorComponents/logo';
 import LabelText from '../minorComponents/labelText';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../context/appContext';
 
 function User ( { name, img, uid } )
 {
-    console.log("uid inside user", uid);
+    const { friend } = useContext( AppContext );
     return (
         <li className="py-2">
             <Link to={`/Home/${uid}`} className="block">
@@ -13,7 +14,10 @@ function User ( { name, img, uid } )
                 <Logo size="w-16 h-16" img={img} />
                  <div className='flex flex-col mt-3'>
                 <LabelText text={name}
-                    color="px-2 text-white" />
+                            color="px-2 text-white" />
+               {/* <LabelText text={ message }
+                        color="px-2 text-white"/>*/}
+                        {/*<Messages message={message} receiverUID={uid} />*/}
                    {/* <Messages messageText={message} />*/}
         </div>
             </div>

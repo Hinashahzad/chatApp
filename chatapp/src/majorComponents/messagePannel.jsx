@@ -1,31 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext} from 'react';
 import InputPannel from './inputPannel';
-import { useParams } from 'react-router-dom';
 import { AppContext } from '../context/appContext';
-import { fetchUserMessages } from '../utils/getFireStoreData';
+import Messages from './messages';
+
 
 function MessagePannel ()
 {
-    const { uid } = useParams();
-    const { user,setUser } = useContext(AppContext);
-
-    useEffect(() => {
-    // Fetch user-specific messages using the uid
-    fetchUserMessages()
-      .then(messages => {
-        setUser({sendMessages:messages});
-      })
-      .catch(error => {
-        console.error('Error fetching messages:', error);
-      });
-  }, [uid]);
+    const { friend } = useContext( AppContext );
     return (
     <div className="w-3/4 bg-gray-100 p-4"
             style={ { minHeight: "calc(100vh - 2rem)" } }>
-        <h1 className="text-2xl font-bold mb-4">Main Content</h1>
-    <p>
-    
-    </p>
+            <h1 className="text-2xl font-bold mb-4">{ friend.friendName }</h1>
+    <Messages />
     <InputPannel />
 </div>
     );

@@ -1,24 +1,37 @@
-import { useContext } from "react";
-import Button from "../../minorComponents/button";
-import HeadingText from "../../minorComponents/headingText";
-import InputTextField from "../../minorComponents/inputTextField";
-import LabelText from "../../minorComponents/labelText";
-import Logo from "../../minorComponents/logo";
-import { AppContext } from "../../context/appContext";
+import { useContext, useEffect } from "react";
+import Button from '../minorComponents/button'
+import HeadingText from "../minorComponents/headingText";
+import InputTextField from "../minorComponents/inputTextField";
+import LabelText from "../minorComponents/labelText";
+import Logo from "../minorComponents/logo";
+import { AppContext } from "../context/appContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
- import { auth, db } from "../../utils/firebase";
-import { useNavigate, useParams } from "react-router-dom";
+ import { auth, db } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 import { doc, getDoc } from 'firebase/firestore';
-import './index.css'
-import image from '../../assets/chat logo.png';
+import image from '../assets/chat logo.png';
+import { fetchUserDataFromFirestore } from "../utils/getFireStoreData";
 const Login = () =>
 {
   const {
-    user,
-    setUser, activeUser, setActiveUser } = useContext( AppContext ); 
-  const { uid } = useParams();
+    user,setUserList,
+    setUser } = useContext( AppContext ); 
   const navigate = useNavigate();
  
+
+  
+  useEffect( () =>
+  {
+     const fetchData = async () => {
+      try {
+        const userDataArray = await fetchUserDataFromFirestore();
+        setUserList(userDataArray);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchData();
+  },[user])
   /** HANDLE SUBMIT FUNCTION */
 
   const submitHandler = async (e) => {
@@ -29,7 +42,6 @@ const Login = () =>
       const User = userCredential.user;
       if ( User )
       {
-        setActiveUser( true );
         const userDocRef = doc(db, "users", User.uid);
         const userDocSnap = await getDoc(userDocRef);
 
@@ -40,13 +52,13 @@ const Login = () =>
             userName: userData.displayName,
             email: userData.email,
             userImg: userData.photoURL
-
           })
           // Perform further actions with user data
+          navigate(`/Home/${User.uid}`);
         } else {
           console.log("User data not found in Firestore");
         }
-        navigate(`/Home/${User.uid}`);
+       
     }
   }
 };

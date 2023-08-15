@@ -1,27 +1,22 @@
-import Logo from '../../minorComponents/logo';
-import LabelText from '../../minorComponents/labelText';
-import InputTextField from '../../minorComponents/inputTextField';
-import HeadingText from '../../minorComponents/headingText';
-import Button from '../../minorComponents/button';
+import Logo from '../minorComponents/logo';
+import LabelText from '../minorComponents/labelText';
+import InputTextField from '../minorComponents/inputTextField';
+import HeadingText from '../minorComponents/headingText';
+import Button from '../minorComponents/button';
 import { useContext, useEffect } from 'react';
-import { AppContext } from '../../context/appContext';
-import { storage } from '../../utils/firebase';
+import { AppContext } from '../context/appContext';
+import { storage } from '../utils/firebase';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { saveDataToFireStore } from '../../utils/firestore';
-import { firebaseLogin } from '../../utils/firebaseRegistration';
-import { updateUserProfile } from '../../utils/updateUserProfile';
+import { saveDataToFireStore } from '../utils/firestore';
+import { firebaseLogin } from '../utils/firebaseRegistration';
+import { updateUserProfile } from '../utils/updateUserProfile';
 import {useNavigate} from 'react-router-dom'
-import { fetchUserDataFromFirestore } from '../../utils/getFireStoreData';
-import image from '../../assets/chat logo.png';
+import { fetchUserDataFromFirestore } from '../utils/getFireStoreData';
+import image from '../assets/chat logo.png';
 
 const Registration = () =>
 {
-  const {
-    user,
-    setUser,
-    userList, setUserList ,
-    error,
-    setError } = useContext( AppContext ); 
+  const {user,setUser,setUserList , setError } = useContext( AppContext ); 
   const navigate = useNavigate();
   
   useEffect( () =>
@@ -35,9 +30,9 @@ const Registration = () =>
       }
     };
     fetchData();
-    console.log(userList);
   },[user])
   
+  /** HANDLESUBMIT FUNCTION SUCCESSFULLY SUBMIT THE USER INTO THE FIRESTORE */
   const submitHandler = async (e) => {
     e.preventDefault();
   
@@ -46,7 +41,7 @@ const Registration = () =>
     {
       /** CREATE A USER IN FIREBASE */
       const response = await firebaseLogin( user.email, user.password );
-      console.log("Response", response);
+      
       /** CREATE A REFERENCE OF STORAGE AND FILE NAME START WITH USER NAME  */
       const storageRef = ref(storage, user.userName);
       const uploadTask = uploadBytesResumable(storageRef, user.userImg);
@@ -75,7 +70,6 @@ const Registration = () =>
             password: "",
             userImg: null // Reset userImg after successful registration
           } );
-          console.log( "USER REGISTERED" );
           navigate('/Login')
         }
       );
