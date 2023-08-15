@@ -6,7 +6,9 @@ import { AppContext } from '../context/appContext';
 
 function User ( { name, img, uid } )
 {
-    const { friend } = useContext( AppContext );
+    const { friend, messages } = useContext( AppContext );
+    
+    console.log("Friend messages are ", friend.friendMessages);
     return (
         <li className="py-2">
             <Link to={`/Home/${uid}`} className="block">
@@ -15,10 +17,16 @@ function User ( { name, img, uid } )
                  <div className='flex flex-col mt-3'>
                 <LabelText text={name}
                             color="px-2 text-white" />
-               {/* <LabelText text={ message }
-                        color="px-2 text-white"/>*/}
-                        {/*<Messages message={message} receiverUID={uid} />*/}
-                   {/* <Messages messageText={message} />*/}
+                       {messages && messages.length > 0 && (
+                            <>
+                        {messages[messages.length - 1].receiverUID === uid && (
+                            <LabelText
+                                text={messages[messages.length - 1].messages}
+                                color="px-2 text-white"
+                            />)}
+                        </>
+                        )}
+
         </div>
             </div>
            </Link>

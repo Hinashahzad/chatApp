@@ -41,7 +41,6 @@ function SideBar ( )
             <div className='container overflow-y-auto border'>
                <ul>
                 {userList.map((user, index) => {
-                    
                     return (
                         <User
                         key={index}
