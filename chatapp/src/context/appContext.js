@@ -18,7 +18,11 @@ const AppProvider = ({children}) =>
         //currentMessage: message,
     } )
     
-    const [ messages, setMessages ] = useState( [] );
+    /*const [ messages, setMessages ] = useState( {
+        messages:[]
+    } );*/
+
+    const [ messages, setMessages ] = useState([])
     const value = {
         userList,setUserList,
         user,setUser, 

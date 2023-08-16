@@ -5,36 +5,49 @@ import {BiImageAdd} from 'react-icons/bi'
 import Button from '../minorComponents/button';
 import { AppContext } from '../context/appContext';
 import { saveDataToFireStore } from '../utils/firestore';
+import { fetchUserDataFromFirestore, fetchUserMessages } from '../utils/getFireStoreData';
 function InputPannel ( )
 {
-  const { user, messages, setMessages, setMessage, message, friend, setFriend } = useContext( AppContext );
+  const { user, messages, setMessages, setMessage, message, friend } = useContext( AppContext );
   /** HERE FIND THE RECEIVED MESSAGES FROM THE MESSAGE ARRAY AND ASSIGN THEM INTO THE FRIEND OBJECT   */
-  useEffect( () =>
+ /* useEffect( () =>
   {
-    console.log("useEffect is calling ");
-    const friendMessages = messages.filter( ( msg ) => msg.receiverUID === friend.friendUID );
+    const friendMessages = messages && messages.filter( ( msg ) => msg.receiverUID === friend.friendUID );
     setFriend( {
         ...friend,
         friendMessages,
       })
-  }, [ messages ] )
+  }, [ messages ] )*/
+/** Reset the messages states when the friendUID is changed */
+  useEffect( () =>
+  {
+    setMessages([])
+  },[friend.friendUID])
 
   /** Save data to fire store when the friend messages are updated  */
   useEffect( () =>
   {
-    const saveData = async () => {
-      try {
-        await saveDataToFireStore( 'messages', friend, friend.friendUID );
-       
-      } catch (error) {
-        console.error("Error save data to firestore", error);
+  const saveData = async () => {
+    try
+    {
+      if ( messages.length > 0 )
+      {
+        const fetchMessages = await fetchUserMessages( friend.friendUID );
+        console.log( fetchMessages );
+        const updatedMessages = [...messages, ...fetchMessages];
+        await saveDataToFireStore('messages', { messages: updatedMessages }, friend.friendUID);
+        //await saveDataToFireStore( 'messages', { messages }, friend.friendUID );
       }
-    };
-    saveData();
-  }, [friend, messages])
+    } catch (error) {
+      console.error("Error saving data to Firestore", error);
+    }
+  };
+  saveData();
+}, [messages]);
+
   
   /** HANDLE SUBMIT FUNCTION IS USED TO STORE ALL THE DATA IN FIRE STORE  */
-  const handleMessageSubmit = async ( e ) =>
+  const handleMessageSubmit = ( e ) =>
   {
     e.preventDefault();
     if ( message.trim() !== "" )
@@ -46,9 +59,7 @@ function InputPannel ( )
         messages: message,
         timestamp: new Date().toISOString()
       };
-      // Update the messages state
-      setMessages( [ ...messages, messageData ] );
-      
+      setMessages([...messages,messageData ])
     }
   }
     return (

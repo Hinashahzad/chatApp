@@ -17,8 +17,6 @@ const Login = () =>
     user,setUserList,
     setUser } = useContext( AppContext ); 
   const navigate = useNavigate();
- 
-
   
   useEffect( () =>
   {

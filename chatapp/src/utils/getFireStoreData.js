@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "./firebase";
 
 export async function fetchUserDataFromFirestore ()
@@ -22,19 +22,24 @@ catch ( error )
 }
 }
 
-export async function fetchUserMessages ()
+/** THIS FUNCTION SEARCH THE USER FROM FIRESTORE BASED ON ID'S AND RETURN HIS/HER ALL MESSAGES */
+export async function fetchUserMessages (uid)
 {
    // Assuming you have a collection named "users"
     const messageCollectionRef = collection(db, "messages");
 
         // Fetch the documents within the collection and return the data
-    try {
-        const querySnapshot = await getDocs(messageCollectionRef);
-
+  try
+  {
+    const querySnapshot = await getDocs( messageCollectionRef );
     // Map the querySnapshot to an array of user data
-        const messageDataArray = querySnapshot.docs.map((doc) => doc.data());
-        
-  return messageDataArray; // Return the data
+    const messageDataArray = querySnapshot.docs.map( ( doc ) => doc.data() );
+    const matchingMessages = messageDataArray.map((obj) => {
+    return obj.messages.filter(
+    (message) => message.receiverUID === uid
+  );
+    } ).flat();
+  return matchingMessages
 }
 catch ( error )
 {
