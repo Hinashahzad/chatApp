@@ -5,23 +5,31 @@ import InputTextField from '../minorComponents/inputTextField';
 import { AppContext } from '../context/appContext';
 import { useParams } from 'react-router-dom';
 import MessagePannel from './messagePannel';
+import { fetchUserMessages } from '../utils/getFireStoreData';
 
 function SideBar ( )
 {
     const { uid } = useParams();
     const { user, userList, setUserList, setFriend } = useContext( AppContext );
-
+   
     /** DISPLAY REST OF THE USERS LIST IN THE SIDE BAR EXCEPT THE LOGIN USER */
     useEffect( () =>
     {
         const updateUserList = userList.filter( ( User, index ) => User.uid !== user.uid )
         setUserList( updateUserList );
+
         // SELECT THE FRIEND FROM SIDE BAR AND ASSIGN THAT USER TO FRIEND OBJECT
-        const friend = userList.find( user => user.uid === uid );
-        setFriend( {
+        const fetchAllMessages = async () =>
+        {
+            const friend = userList.find( user => user.uid === uid );
+            const fetchFriendData = await fetchUserMessages( uid );
+            setFriend( {
             friendUID: friend.uid,
             friendName: friend.displayName,
+            friendMessages:fetchFriendData
         } );
+        }
+       fetchAllMessages();
     }, [ user, uid ] )
     
     return ( <>
@@ -49,12 +57,14 @@ function SideBar ( )
                             key={index}
                             uid={user.uid}
                             name={user.displayName }   
-                            img={user.photoURL}
+                            img={ user.photoURL }
                         />);})}
                 </ul>
             </div>
         </aside>
-        <MessagePannel/></>);
+    <MessagePannel />
+    
+    </> );
 }
 
 export default SideBar;

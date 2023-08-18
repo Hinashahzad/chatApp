@@ -10,20 +10,21 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc } from 'firebase/firestore';
 import image from '../assets/chat logo.png';
-import { fetchUserDataFromFirestore } from "../utils/getFireStoreData";
+import { fetchAllUserMessages, fetchUserDataFromFirestore } from "../utils/getFireStoreData";
 const Login = () =>
 {
   const {
     user,setUserList,
-    setUser } = useContext( AppContext ); 
+    setUser, setMessages, messages } = useContext( AppContext ); 
   const navigate = useNavigate();
-  
   useEffect( () =>
   {
      const fetchData = async () => {
       try {
         const userDataArray = await fetchUserDataFromFirestore();
-        setUserList(userDataArray);
+        setUserList( userDataArray );
+        //const messageDataArray = await fetchAllUserMessages();
+        //setMessages(messageDataArray);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

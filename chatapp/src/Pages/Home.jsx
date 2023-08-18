@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import SideBar from '../majorComponents/sideBar';
 import { fetchUserMessages } from '../utils/getFireStoreData';
-import { AppContext } from '../context/appContext';
+
 function Home ()
 {
   /** GETTING ALL THE DATA FROM THE FIRESTORE */

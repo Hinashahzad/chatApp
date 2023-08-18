@@ -9,6 +9,7 @@ const AppProvider = ({children}) =>
     const [ friend, setFriend ] = useState( {
         friendUID: '', 
         friendName: '',
+        friendMessages:[]
     })
     const [ user, setUser ] = useState( {
         userName: "", 
@@ -17,10 +18,6 @@ const AppProvider = ({children}) =>
         userImg: "", 
         //currentMessage: message,
     } )
-    
-    /*const [ messages, setMessages ] = useState( {
-        messages:[]
-    } );*/
 
     const [ messages, setMessages ] = useState([])
     const value = {
@@ -29,7 +26,8 @@ const AppProvider = ({children}) =>
         error,setError,
         friend, setFriend,
         messages,setMessages,
-        message,setMessage,
+        message, setMessage,
+        
     }
     return <AppContext.Provider value={ value }>{ children }</AppContext.Provider>
 };

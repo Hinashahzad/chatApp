@@ -5,53 +5,54 @@ import {BiImageAdd} from 'react-icons/bi'
 import Button from '../minorComponents/button';
 import { AppContext } from '../context/appContext';
 import { saveDataToFireStore } from '../utils/firestore';
-import { fetchUserDataFromFirestore, fetchUserMessages } from '../utils/getFireStoreData';
+import { fetchUserMessages } from '../utils/getFireStoreData';
 function InputPannel ( )
 {
-  const { user, messages, setMessages, setMessage, message, friend } = useContext( AppContext );
-  /** HERE FIND THE RECEIVED MESSAGES FROM THE MESSAGE ARRAY AND ASSIGN THEM INTO THE FRIEND OBJECT   */
- /* useEffect( () =>
-  {
-    const friendMessages = messages && messages.filter( ( msg ) => msg.receiverUID === friend.friendUID );
-    setFriend( {
-        ...friend,
-        friendMessages,
-      })
-  }, [ messages ] )*/
-/** Reset the messages states when the friendUID is changed */
+  const {
+    user,
+    messages,
+    setMessages,
+    setMessage,
+    message,
+    friend } = useContext( AppContext );
+  /** FETCH ALL THE MESSAGES FROM FIRESTORE SO THAT IT CAN BE EASILY APPENDABLE*/
+ 
   useEffect( () =>
   {
-    setMessages([])
-  },[friend.friendUID])
-
-  /** Save data to fire store when the friend messages are updated  */
+    setMessages( [] );
+    
+  }, [ friend.friendUID ] )
+  
   useEffect( () =>
   {
-  const saveData = async () => {
-    try
+    const updateMessages = async () =>
     {
+      try
+      {
+         const fetchMessages = await fetchUserMessages( friend.friendUID );
       if ( messages.length > 0 )
       {
-        const fetchMessages = await fetchUserMessages( friend.friendUID );
-        console.log( fetchMessages );
-        const updatedMessages = [...messages, ...fetchMessages];
-        await saveDataToFireStore('messages', { messages: updatedMessages }, friend.friendUID);
-        //await saveDataToFireStore( 'messages', { messages }, friend.friendUID );
+        if ( fetchMessages )  {
+          const updatedMessages = [...messages, ...fetchMessages ];
+          await saveDataToFireStore( 'messages', { messages: updatedMessages }, friend.friendUID );
+        }else{
+            await saveDataToFireStore( 'messages', { messages }, friend.friendUID );
+        }
       }
-    } catch (error) {
-      console.error("Error saving data to Firestore", error);
-    }
-  };
-  saveData();
+      } catch ( error ){
+        console.error("Error saving data to Firestore", error);}
+      }
+     
+    updateMessages();
+    
 }, [messages]);
 
-  
   /** HANDLE SUBMIT FUNCTION IS USED TO STORE ALL THE DATA IN FIRE STORE  */
-  const handleMessageSubmit = ( e ) =>
+  const handleMessageSubmit = async ( e ) =>
   {
+    
     e.preventDefault();
-    if ( message.trim() !== "" )
-    {
+    if ( message.trim() !== "" ){
       //ATTACH THE SENDER UID AND RECEIVER UID 
       const messageData = {
         senderUID: user.uid,
