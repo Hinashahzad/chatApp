@@ -67,7 +67,7 @@ function InputPannel ( )
         <div className='sticky top-[100vh] h-15
              border
             border-gray-500'>
-            <form className="border border-red-700" onSubmit={ handleMessageSubmit }>
+            <form className="border-no" onSubmit={ handleMessageSubmit }>
                 <div className="flex justify-between">
                     <InputTextField
                         type="text"

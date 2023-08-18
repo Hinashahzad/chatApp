@@ -15,7 +15,7 @@ const Routing = () =>
                 <Route path="/Login" element={ <Login /> }></Route>
                 <Route path="/Home" element={ <Home /> }></Route>
                 <Route path="/Home/:uid" element={ <Home /> }></Route>
-                <Route path="/Home/:uid/messagePannel" element={  <MessagePannel />  }></Route>
+                <Route path="/Home/:uid/MessagePannel" element={  <MessagePannel />  }></Route>
             </Routes>
         </Router>
     </> );

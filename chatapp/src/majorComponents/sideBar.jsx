@@ -34,7 +34,8 @@ function SideBar ( )
     
     return ( <>
         <aside
-            className="w-1/4 bg-gray-800 text-white p-4">
+            className="w-1/4 bg-gray-800 text-white p-4 "
+            style={ { height: '100vh', overflowY: 'auto' } }>
             <NavBar />
             <div className='flex mt-5'>
             <InputTextField
@@ -49,7 +50,7 @@ function SideBar ( )
                         ring-inset ring-gray-300" />
         </div>
             <div
-            className='container overflow-y-auto border'>
+            className='container'>
                <ul>
                 { userList.map((user, index) => {
                     return (

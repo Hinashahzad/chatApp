@@ -17,6 +17,8 @@ const Login = () =>
     user,setUserList,
     setUser } = useContext( AppContext ); 
   const navigate = useNavigate();
+
+  // FETCHING ALL THE USERS WHO ARE REGISTERED ON THE FIRESTORE AND SET THEM INTO USERlIST
   useEffect( () =>
   {
      const fetchData = async () => {
@@ -28,17 +30,17 @@ const Login = () =>
       }
     };
     fetchData();
-  },[user])
+  }, [ user ] )
+  
   /** HANDLE SUBMIT FUNCTION */
-
   const submitHandler = async (e) => {
     e.preventDefault();
     if ( user.email && user.password )
     {
+      // SIGN IN FIRESTORE 
       const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password);
       const User = userCredential.user;
-      if ( User )
-      {
+      if ( User ){
         const userDocRef = doc(db, "users", User.uid);
         const userDocSnap = await getDoc(userDocRef);
 

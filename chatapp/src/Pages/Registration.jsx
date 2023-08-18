@@ -89,7 +89,7 @@ const Registration = () =>
         <div
           className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Logo
-            size="w-150 h-50"
+            size="w-50 h-15"
             img={image } />
             <HeadingText text= "Register your account "/>
         </div>

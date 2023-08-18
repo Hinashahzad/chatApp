@@ -6,7 +6,7 @@ export async function fetchUserDataFromFirestore ()
    // Assuming you have a collection named "users"
     const usersCollectionRef = collection(db, "users");
 
-        // Fetch the documents within the collection and return the data
+    // Fetch the documents within the collection and return the data
     try {
         const querySnapshot = await getDocs(usersCollectionRef);
 
