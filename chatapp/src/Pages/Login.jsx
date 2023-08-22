@@ -15,9 +15,9 @@ const Login = () =>
 {
   const {
     user,setUserList,
-    setUser } = useContext( AppContext ); 
+    setUser, userList } = useContext( AppContext ); 
   const navigate = useNavigate();
-
+  console.log("userList is ", userList);
   // FETCHING ALL THE USERS WHO ARE REGISTERED ON THE FIRESTORE AND SET THEM INTO USERlIST
   useEffect( () =>
   {
@@ -25,6 +25,7 @@ const Login = () =>
       try {
         const userDataArray = await fetchUserDataFromFirestore();
         setUserList( userDataArray );
+        
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

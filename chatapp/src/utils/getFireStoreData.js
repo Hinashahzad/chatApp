@@ -1,5 +1,6 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "./firebase";
+import { saveDataToFireStore } from "./firestore";
 
 export async function fetchUserDataFromFirestore ()
 {
@@ -21,7 +22,27 @@ catch ( error )
   return []; // Return an empty array or handle the error as needed
 }
 }
+export async function findReplaceUserFromFireStore(newData) {
+  try {
+    // Assuming you have a collection named "users"
+    const userCollectionRef = collection(db, 'users');
 
+    // Fetch the documents within the collection
+    const querySnapshot = await getDocs(userCollectionRef);
+
+    // Iterate through each document
+    querySnapshot.forEach(async (docSnapshot) => {
+      const userData = docSnapshot.data();
+      if (userData.uid === newData.uid) {
+        // Found the user, update the document
+        const userDocRef = doc(userCollectionRef, docSnapshot.id);
+        await updateDoc(userDocRef, newData);
+      }
+    });
+  } catch (error) {
+    console.error('Error updating user data:', error);
+  }
+}
 /** THIS FUNCTION SEARCH THE USER FROM FIRESTORE BASED ON ID'S AND RETURN HIS/HER ALL MESSAGES */
 export async function fetchUserMessages (uid)
 {

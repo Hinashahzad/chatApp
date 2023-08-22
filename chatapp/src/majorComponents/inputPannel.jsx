@@ -5,7 +5,7 @@ import {BiImageAdd} from 'react-icons/bi'
 import Button from '../minorComponents/button';
 import { AppContext } from '../context/appContext';
 import { saveDataToFireStore } from '../utils/firestore';
-import { fetchUserMessages } from '../utils/getFireStoreData';
+import { fetchUserMessages, findReplaceUserFromFireStore } from '../utils/getFireStoreData';
 function InputPannel ( )
 {
   const {
@@ -14,9 +14,10 @@ function InputPannel ( )
     setMessages,
     setMessage,
     message,
-    friend } = useContext( AppContext );
+    friend,
+    userList, setUserList} = useContext( AppContext );
+  
   /** FETCH ALL THE MESSAGES FROM FIRESTORE SO THAT IT CAN BE EASILY APPENDABLE*/
- 
   useEffect( () =>
   {
     setMessages( [] );
@@ -27,22 +28,37 @@ function InputPannel ( )
   {
     const updateMessages = async () =>
     {
-      try
-      {
-         const fetchMessages = await fetchUserMessages( friend.friendUID );
-      if ( messages.length > 0 )
-      {
-        if ( fetchMessages )  {
-          const updatedMessages = [...messages, ...fetchMessages ];
+      try {
+        const fetchMessages = await fetchUserMessages( friend.friendUID );
+        if ( messages.length > 0 )
+        {
+        if ( fetchMessages )  
+        {
+          const updatedMessages = [ ...messages, ...fetchMessages ];
+          //Find the exact user who receives the messages.
+          const findUser = userList && userList.find( user => user.uid === friend.friendUID );
+          if ( findUser )
+          {
+            //update the user with received messages
+            const updatedUser = {
+              ...findUser, 
+              receivedMessages: updatedMessages,
+            }
+            await findReplaceUserFromFireStore(updatedUser) 
+          }
           await saveDataToFireStore( 'messages', { messages: updatedMessages }, friend.friendUID );
-        }else{
-            await saveDataToFireStore( 'messages', { messages }, friend.friendUID );
+        }
+        else
+        {
+          await saveDataToFireStore( 'messages', { messages }, friend.friendUID );
         }
       }
-      } catch ( error ){
+      } catch ( error )
+      {
         console.error("Error saving data to Firestore", error);}
       }
-     
+            //Add them into receives messages with respect to each user
+      
     updateMessages();
     
 }, [messages]);

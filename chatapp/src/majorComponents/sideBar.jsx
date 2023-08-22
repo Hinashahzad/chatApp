@@ -10,8 +10,7 @@ import { fetchUserMessages } from '../utils/getFireStoreData';
 function SideBar ( )
 {
     const { uid } = useParams();
-    const { user, userList, setUserList, setFriend } = useContext( AppContext );
-   
+    const { user, userList, setUserList, setFriend, setUser, friend } = useContext( AppContext );
     /** DISPLAY REST OF THE USERS LIST IN THE SIDE BAR EXCEPT THE LOGIN USER */
     useEffect( () =>
     {
@@ -27,10 +26,11 @@ function SideBar ( )
             friendUID: friend.uid,
             friendName: friend.displayName,
             friendMessages:fetchFriendData
-        } );
+            } );
+           
         }
        fetchAllMessages();
-    }, [ user, uid ] )
+    }, [ user, uid] )
     
     return ( <>
         <aside

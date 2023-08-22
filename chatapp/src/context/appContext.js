@@ -19,7 +19,8 @@ const AppProvider = ({children}) =>
         userName: "", 
         email: "",
         password: "", 
-        userImg: "", 
+        userImg: "",
+        //receivedMessages:[]
     } )
 
     // MESSAGES ARRAY MANAGES ALL THE MESSAGE HISTORY. e.g., senderUID, receiverUID, messages and TimeStamp etch
