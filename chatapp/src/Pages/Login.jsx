@@ -31,6 +31,7 @@ const Login = () =>
       }
     };
     fetchData();
+
   }, [ user ] )
   
   /** HANDLE SUBMIT FUNCTION */
@@ -49,9 +50,9 @@ const Login = () =>
           const userData = userDocSnap.data();
           setUser( {
             uid: userData.uid,
-            userName: userData.displayName,
+            displayName: userData.displayName,
             email: userData.email,
-            userImg: userData.photoURL
+            photoURL: userData.photoURL
           })
           // Perform further actions with user data
           navigate(`/Home/${User.uid}`);

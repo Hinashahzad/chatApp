@@ -14,7 +14,10 @@ function Messages() {
               <MessageBar
                 key={`message-${index}`} // Unique key for messages
                 keyIndex={`message-${index}`} // Pass the key as a prop
-                data={data}
+                data={ data }
+                 label={"sent"}
+                color={ "bg-blue-500" }
+                position={ "justify-end"}
               />
             );
           }

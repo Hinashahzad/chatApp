@@ -86,5 +86,28 @@ catch ( error )
 {
   console.error("Error fetching documents:", error);
   return []; // Return an empty array or handle the error as needed
+} }
+
+export async function fetchUserByID(uid) {
+  // Assuming you have a collection named "users"
+  const userCollectionRef = collection(db, "users");
+  try {
+    const querySnapshot = await getDocs(userCollectionRef);
+    // Map the querySnapshot to an array of user data
+    const userDataArray = querySnapshot.docs.map((doc) => doc.data());
+
+    // Find the user that matches the provided UID
+    const matchingUser = userDataArray.find((user) => user.uid === uid);
+
+    if (matchingUser) {
+      return matchingUser; // Return the messages of the matching user
+    } else {
+      return []; // User not found, return an empty array or handle as needed
+    }
+  } catch (error) {
+    console.error("Error fetching documents:", error);
+    return []; // Return an empty array or handle the error as needed
+  }
 }
-}
+
+

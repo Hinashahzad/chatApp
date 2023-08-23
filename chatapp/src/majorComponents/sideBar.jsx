@@ -5,15 +5,28 @@ import InputTextField from '../minorComponents/inputTextField';
 import { AppContext } from '../context/appContext';
 import { useParams } from 'react-router-dom';
 import MessagePannel from './messagePannel';
-import { fetchUserMessages } from '../utils/getFireStoreData';
+import { fetchUserByID, fetchUserMessages } from '../utils/getFireStoreData';
 
 function SideBar ( )
 {
     const { uid } = useParams();
     const { user, userList, setUserList, setFriend, setUser, friend } = useContext( AppContext );
+    //console.log(friend);
     /** DISPLAY REST OF THE USERS LIST IN THE SIDE BAR EXCEPT THE LOGIN USER */
     useEffect( () =>
     {
+        const finduser = userList.find( data => data.uid === user.uid );
+        if ( finduser )
+        {
+           console.log("now the findUser", finduser);
+    const completeDetails = {
+      ...user,
+      receivedMessages: finduser.receivedMessages || [] // Set default value as an empty array if receivedMessages is undefined
+    };
+                setUser(completeDetails);
+        }
+        
+        
         const updateUserList = userList.filter( ( User, index ) => User.uid !== user.uid )
         setUserList( updateUserList );
 
@@ -22,14 +35,17 @@ function SideBar ( )
         {
             const friend = userList.find( user => user.uid === uid );
             const fetchFriendData = await fetchUserMessages( uid );
-            setFriend( {
+            if ( friend )
+            {
+               setFriend( {
             friendUID: friend.uid,
             friendName: friend.displayName,
-            friendMessages:fetchFriendData
-            } );
-           
+            sendMessages:fetchFriendData
+            } ); 
+            }
+            
         }
-       fetchAllMessages();
+           fetchAllMessages();
     }, [ user, uid] )
     
     return ( <>

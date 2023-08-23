@@ -5,7 +5,7 @@ import {BiImageAdd} from 'react-icons/bi'
 import Button from '../minorComponents/button';
 import { AppContext } from '../context/appContext';
 import { saveDataToFireStore } from '../utils/firestore';
-import { fetchUserMessages, findReplaceUserFromFireStore } from '../utils/getFireStoreData';
+import { findReplaceUserFromFireStore } from '../utils/getFireStoreData';
 function InputPannel ( )
 {
   const {
@@ -15,7 +15,7 @@ function InputPannel ( )
     setMessage,
     message,
     friend,
-    userList, setUserList} = useContext( AppContext );
+    userList,setUser} = useContext( AppContext );
   
   /** FETCH ALL THE MESSAGES FROM FIRESTORE SO THAT IT CAN BE EASILY APPENDABLE*/
   useEffect( () =>
@@ -29,16 +29,13 @@ function InputPannel ( )
     const updateMessages = async () =>
     {
       try {
-        const fetchMessages = await fetchUserMessages( friend.friendUID );
-        if ( messages.length > 0 )
-        {
-        if ( fetchMessages )  
-        {
-          const updatedMessages = [ ...messages, ...fetchMessages ];
+        //const fetchMessages = await fetchUserMessages( friend.friendUID );
+        if ( messages.length > 0 ){
+        if ( friend.sendMessages )  {
+          const updatedMessages = [ ...messages, ...friend.sendMessages ];
           //Find the exact user who receives the messages.
           const findUser = userList && userList.find( user => user.uid === friend.friendUID );
-          if ( findUser )
-          {
+          if ( findUser ){
             //update the user with received messages
             const updatedUser = {
               ...findUser, 
@@ -62,6 +59,7 @@ function InputPannel ( )
     updateMessages();
     
 }, [messages]);
+
 
   /** HANDLE SUBMIT FUNCTION IS USED TO STORE ALL THE DATA IN FIRE STORE  */
   const handleMessageSubmit = async ( e ) =>

@@ -12,14 +12,16 @@ const AppProvider = ({children}) =>
     const [ friend, setFriend ] = useState( {
         friendUID: '', 
         friendName: '',
-        friendMessages:[]
+        sendMessages: [], 
+        //receivedMessages:[]
     } )
+    
     //USER OBJECT TO LOGIN ON THE CHAT APP
     const [ user, setUser ] = useState( {
-        userName: "", 
+        displayName: "", 
         email: "",
         password: "", 
-        userImg: "",
+        photoURL: "",
         //receivedMessages:[]
     } )
 

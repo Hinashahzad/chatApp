@@ -18,7 +18,7 @@ const Registration = () =>
 {
   const {user,setUser,setUserList , setError, userList } = useContext( AppContext ); 
   const navigate = useNavigate();
-  console.log("userList", userList);
+  //console.log("userList", userList);
   useEffect( () =>
   {
      const fetchData = async () => {

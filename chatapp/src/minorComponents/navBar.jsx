@@ -19,7 +19,7 @@ export const NavBar = () =>
         <div className='flex justify-between'>
             <Logo size="w-75 h-10 object-contain" img={image} />
             <div className='flex items-center gap-6 '>
-                <LabelText text={user.userName}
+                <LabelText text={user.displayName}
                     color="text-white" />
                 <Button type="submit"
                     text="Log out"
