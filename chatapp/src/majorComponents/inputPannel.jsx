@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import InputTextField from '../minorComponents/inputTextField';
 import { IoMdAttach } from 'react-icons/io';
-import {BiImageAdd} from 'react-icons/bi'
+import { BiImageAdd } from 'react-icons/bi'
 import Button from '../minorComponents/button';
 import { AppContext } from '../context/appContext';
 import { saveDataToFireStore } from '../utils/firestore';
 import { findReplaceUserFromFireStore } from '../utils/getFireStoreData';
+
 function InputPannel ( )
 {
   const {
@@ -16,7 +17,6 @@ function InputPannel ( )
     message,
     friend,
     userList,setUser} = useContext( AppContext );
-  
   /** FETCH ALL THE MESSAGES FROM FIRESTORE SO THAT IT CAN BE EASILY APPENDABLE*/
   useEffect( () =>
   {
@@ -29,19 +29,27 @@ function InputPannel ( )
     const updateMessages = async () =>
     {
       try {
-        //const fetchMessages = await fetchUserMessages( friend.friendUID );
         if ( messages.length > 0 ){
         if ( friend.sendMessages )  {
           const updatedMessages = [ ...messages, ...friend.sendMessages ];
           //Find the exact user who receives the messages.
           const findUser = userList && userList.find( user => user.uid === friend.friendUID );
+          //console.log("findUser", findUser);
           if ( findUser ){
             //update the user with received messages
             const updatedUser = {
               ...findUser, 
               receivedMessages: updatedMessages,
             }
-            await findReplaceUserFromFireStore(updatedUser) 
+            console.log("updatedUser", updatedUser);
+            await findReplaceUserFromFireStore( updatedUser )
+            /*if ( friend.friendUID === updatedUser.uid )
+            {
+              console.log( "Condition true" );
+              navigate('/Home')
+           }*/
+            //const abc = fetchUserByID( updatedUser.uid );
+            //console.log("from firestore", abc);
           }
           await saveDataToFireStore( 'messages', { messages: updatedMessages }, friend.friendUID );
         }
@@ -58,7 +66,7 @@ function InputPannel ( )
       
     updateMessages();
     
-}, [messages]);
+}, [messages, friend, user]);
 
 
   /** HANDLE SUBMIT FUNCTION IS USED TO STORE ALL THE DATA IN FIRE STORE  */

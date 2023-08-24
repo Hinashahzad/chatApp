@@ -17,7 +17,7 @@ const Login = () =>
     user,setUserList,
     setUser, userList } = useContext( AppContext ); 
   const navigate = useNavigate();
-  console.log("userList is ", userList);
+  //console.log("userList is ", userList);
   // FETCHING ALL THE USERS WHO ARE REGISTERED ON THE FIRESTORE AND SET THEM INTO USERlIST
   useEffect( () =>
   {
@@ -32,7 +32,7 @@ const Login = () =>
     };
     fetchData();
 
-  }, [ user ] )
+  }, [] )
   
   /** HANDLE SUBMIT FUNCTION */
   const submitHandler = async (e) => {

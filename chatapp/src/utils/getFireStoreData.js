@@ -49,7 +49,7 @@ export async function fetchUserMessages (uid)
    // Assuming you have a collection named "users"
     const messageCollectionRef = collection(db, "messages");
 
-        // Fetch the documents within the collection and return the data
+    // Fetch the documents within the collection and return the data
   try
   {
     const querySnapshot = await getDocs( messageCollectionRef );
@@ -88,7 +88,9 @@ catch ( error )
   return []; // Return an empty array or handle the error as needed
 } }
 
-export async function fetchUserByID(uid) {
+export async function fetchUserByID ( uid )
+{
+  console.log("uid", uid);
   // Assuming you have a collection named "users"
   const userCollectionRef = collection(db, "users");
   try {

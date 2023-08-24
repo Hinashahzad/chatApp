@@ -3,12 +3,15 @@ import { createContext, useState } from "react";
 export const AppContext = createContext();
 const AppProvider = ({children}) =>
 {
-    const [ error, setError ] = useState({status:false, details:""} );
+    const [ error, setError ] = useState( { status: false, details: "" } );
+    
     //MANAGE ALL THE REGISTERED USERS IN FIRSTORE
     const [ userList, setUserList ] = useState( [] );
-    //USE TO UPDATE THE MESSAGE ARRAY 
+
+    //THIS VARIABLE HANDLES ALL THE INPUT WHEN LOGGED IN USER SEND MESSAGES TO SELECTED FRIEND FROM THE SIDEBAR
     const [ message, setMessage ] = useState( '' );
-    // EACH FRIEND HAS HIS/HER OWN ID, NAME AND MESSAGES HISTORY AND ALL FRIENDS MUST B REGISTERED ON FIRESTORE
+
+    // USER HAS ACCESS TO HIS/HER FRIEND LIST FROM SIDE BAR AND ALL THE SEND MESSAGES TO FRIEND IS HANDLED ON SENDMESSAGE ARRAY 
     const [ friend, setFriend ] = useState( {
         friendUID: '', 
         friendName: '',
@@ -25,7 +28,7 @@ const AppProvider = ({children}) =>
         //receivedMessages:[]
     } )
 
-    // MESSAGES ARRAY MANAGES ALL THE MESSAGE HISTORY. e.g., senderUID, receiverUID, messages and TimeStamp etch
+    // MESSAGES ARRAY MANAGES ALL THE MESSAGE HISTORY. e.g., senderUID, receiverUID, messages and TimeStamp
     const [ messages, setMessages ] = useState([])
     
     const value = {

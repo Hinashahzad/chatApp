@@ -16,7 +16,7 @@ import image from '../assets/chat logo.png';
 
 const Registration = () =>
 {
-  const {user,setUser,setUserList , setError, userList } = useContext( AppContext ); 
+  const {user,setUser,setUserList , setError } = useContext( AppContext ); 
   const navigate = useNavigate();
   //console.log("userList", userList);
   useEffect( () =>
@@ -30,7 +30,7 @@ const Registration = () =>
       }
     };
     fetchData();
-  },[user])
+  },[])
   
   /** HANDLESUBMIT FUNCTION SUCCESSFULLY SUBMIT THE USER INTO THE FIRESTORE */
   const submitHandler = async (e) => {
